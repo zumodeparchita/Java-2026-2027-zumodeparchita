@@ -8,7 +8,7 @@ public class MediaNumeros {
         Scanner sc = new Scanner(System.in);
 
         int media = 0, numero = 0;
-        double contadorN = 0;
+        int contadorN = 0;
 
         while (numero != -1) {
 
