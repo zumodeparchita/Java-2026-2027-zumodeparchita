@@ -12,5 +12,10 @@ public class Sumar100Siguientes {
             num = sc.nextInt();
         } while (num <= 0);
 
+        for (int i = 1; i <= 100; i++){
+            suma += num + i;
+            System.out.println(suma);
+        }
+
     }
 }

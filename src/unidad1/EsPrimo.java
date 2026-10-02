@@ -6,28 +6,22 @@ public class EsPrimo {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int num = 0, i = 2, cont = 0;
+        int num = 0;
 
         do {
-            System.out.println("Escibre un número mayor que 0");
+            System.out.println("Ingrese un número positivo mayor que 1");
             num = sc.nextInt();
-            if (num <= 1) {
-                System.out.println("Debe ser positivo y mayor que 1");
-            }
-        } while (num <= 1);
+        } while (num <=1);
 
-        do{
-            if (num % i == 0) {
-                cont++;
-            }
+        int i = 2;
+        while (i < num && num % i != 0){
             i++;
-        } while (i < num && cont == 0);
-        if(cont == 0) {
+        }
+        if (i == num) {
             System.out.println("Es primo");
         } else {
             System.out.println("No es primo");
         }
-
 
     }
 }
