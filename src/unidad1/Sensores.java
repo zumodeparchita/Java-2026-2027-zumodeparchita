@@ -58,6 +58,8 @@ public class Sensores {
             System.out.println();
             //Total de alarmas generadas
 
+
+
             if(sensorT < TMIN || sensorT > TMAX) {
                 contAnomTemp++;
             } else {
@@ -78,6 +80,9 @@ public class Sensores {
 
             //¡Alarmas!
 
+            System.out.println("Total de Alarmas Generadas: \n  - Temperatura: " + alarmaT + "\n  - Humedad: " + alarmaH + "\n  - Presencia: " + alarmaP);
+            System.out.println();
+
             if (contAnomTemp >= LECTURAS_ANOMALAS) {
                 alarmaT++;
                 System.out.println("¡Alarma! Sensor de temperatura activado");
@@ -91,9 +96,7 @@ public class Sensores {
                 alarmaP++;
                 System.out.println("¡Alarma! Sensor de presencia activado");
             }
-            System.out.println();
-            System.out.println("Total de Alarmas Generadas: \n  - Temperatura: " + alarmaT + "\n  - Humedad: " + alarmaH + "\n  - Presencia: " + alarmaP);
-            System.out.println();
+
             }
         }
     }
