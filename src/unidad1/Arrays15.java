@@ -28,10 +28,11 @@ public class Arrays15 {
         for (int i = 0; i < contPares; i++){
             enteros[i] = pares[i];
         }
-        for (int i = 0; i < enteros.length; i++){
-            enteros[i] = impares[i];
+        for (int k = 0; k < contImpares; k++) {
+            enteros[contPares + k] = impares[k];
         }
         System.out.println(Arrays.toString(enteros));
+        System.out.println();
         System.out.println(Arrays.toString(pares));
         System.out.println(Arrays.toString(impares));
     }
