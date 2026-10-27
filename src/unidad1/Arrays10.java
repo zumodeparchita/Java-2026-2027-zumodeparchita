@@ -15,14 +15,17 @@ public class Arrays10 {
             randomNum = aleatorios.nextInt(1, 101);
             arrayUno[i] = randomNum;
         }
-        int i = arrayInverso.length - 1;
-        int j = 0;
 
-        while (i >= 0) {
+        int j = 0;
+        for(int i = arrayInverso.length-1; i>=0; i--){
             arrayInverso[i] = arrayUno[j];
-            i--;
             j++;
         }
+
+//        for (int i = 0; i < arrayInverso.length; i++) {
+//            arrayInverso[i] = arrayUno[arrayUno.length-1-i];
+//
+//        }
 
         System.out.println(Arrays.toString(arrayUno));
         System.out.println(Arrays.toString(arrayInverso));

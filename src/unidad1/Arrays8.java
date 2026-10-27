@@ -15,16 +15,12 @@ public class Arrays8 {
         System.out.println("Ingrese el valor de Q");
         q = sc.nextInt();
 
-        for (int i = p; i <= q; i++){
-            cont++;
-        }
-        regla = new int[cont];
+
+        regla = new int[q-p+1];
 
         for (int i = 0; i < regla.length; i++) {
-            if (p <= q) {
                 regla[i] = p;
-            }
-            p++;
+                p++;
         }
         System.out.println(Arrays.toString(regla));
     }

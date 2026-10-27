@@ -24,19 +24,21 @@ public class ArraysII5 {
             sumaFil = 0;
         }
         //Sumar los valores de cada columna
-        int sumaCol = 0;
+        int sumaCol = 0, sumaTotal=0;
         for(int columna = 0; columna < enteros[0].length - 1; columna++) {
             for (int fila = 0; fila < enteros.length - 1; fila++) {
-                sumaCol = sumaCol + enteros[fila][columna];
+                sumaCol += enteros[fila][columna];
+                sumaTotal += enteros[fila][columna];
                 enteros[enteros.length - 1][columna] = sumaCol;
             }
             sumaCol = 0;
         }
+        enteros[4][5] = sumaTotal;
 
             //Escribir el array
         for(int fila = 0; fila < enteros.length; fila++){
             for(int columna = 0; columna < enteros[fila].length; columna++){
-                System.out.print(enteros[fila][columna] + " ");
+                System.out.printf("|%-5d", enteros[fila][columna]);;
             }
             System.out.println();
         }
