@@ -15,20 +15,20 @@ public class ArraysII9 {
                 estaturas[i][j] = aleatorio.nextInt(140, 211);
             }
         }
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE, media = 0;
 
         for(int fila = 0; fila < estaturas.length; fila++){
             System.out.printf("%9s: ", pais[fila]);
             for (int columna = 0; columna < estaturas[fila].length; columna++) {
                 System.out.printf("%3d  " ,estaturas[fila][columna]);
-
                 if(estaturas[fila][columna] < min) min = estaturas[fila][columna];
                 if(estaturas[fila][columna] > max) max = estaturas[fila][columna];
+                media += estaturas[fila][columna];
             }
-            System.out.print("Mondongo, con queso");
+            media = (media/estaturas[fila].length);
+            System.out.print("| " + media + " " + min + " " + max);
             System.out.println();
+            media = 0;
         }
-
-
     }
 }
