@@ -13,25 +13,28 @@ public class TresEnRaya {
 
         char[][] tablero = new char[3][3];
         char fichaJugador, fichaOrdenador;
-        int turno;
-
+        int turno, jugadas = 0;
+        boolean partidaFinalizada;
         System.out.println("Bienvenido a tres en raya...\n");
-        //Asignar fichas a los jugadores (Jugador y Ordenador)
+
         fichaJugador = seleccionarFicha();
         fichaOrdenador = asignarFichaOrdenador(fichaJugador);
 
-        //Elegir turno
         turno = sortearTurno();
-
-        //Iniciar tablero
         iniciarTableroEnBlanco(tablero);
-
-        //Mostrar el tablero
         mostrarTablero(tablero);
 
-        //Jugada Persona
-
-
+        do {
+            if (turno == TURNO_PERSONA) {
+                jugadaPersona(tablero, fichaJugador);
+            } else {
+                jugadaOrdenador(tablero, fichaOrdenador);
+            }
+            mostrarTablero(tablero);
+            jugadas++;
+            partidaFinalizada = comprobarVictoria(tablero, jugadas, turno);
+            turno = (turno == TURNO_PERSONA) ? TURNO_PC : TURNO_PERSONA;
+        } while (!partidaFinalizada);
     }
 
     static char seleccionarFicha() {
@@ -52,16 +55,17 @@ public class TresEnRaya {
     }
 
     static int sortearTurno() {
-        int eleccion, moneda, turno;
+        int eleccion, moneda;
         do {
             System.out.println("\nSorteo de turnos...");
             System.out.println("Elige cara (1) o cruz (2): ");
             eleccion = sc.nextInt();
+            sc.nextLine();
         } while (eleccion != 1 && eleccion != 2);
 
         moneda = aleatorio.nextInt(1, 3);
 
-        if (eleccion == moneda){
+        if (eleccion == moneda) {
             System.out.println("Has acertado, juegas primero.");
             return TURNO_PERSONA;
         } else {
@@ -80,7 +84,6 @@ public class TresEnRaya {
 
     static void mostrarTablero(char[][] tablero) {
 
-        System.out.println("\nTres en raya");
         System.out.println("   0   1   2  ");
         System.out.println("  ┌───┬───┬───┐");
 
@@ -96,15 +99,59 @@ public class TresEnRaya {
 
         }
         System.out.println("  └───┴───┴───┘");
+
+        System.out.println("\nPulsa intro para continuar...\n");
+        sc.nextLine();
     }
 
-    static void jugadaPersona(char[][] tablero){
-        int jugada, fila, columna;
-do {
-    System.out.println("Ingrese la fila que desea jugar: ");
-    fila = sc.nextInt();
-    System.out.println("Ingrese la columna que desea jugar: ");
-    columna = sc.nextInt();
-} while ((fila > 2 || fila < 0) || (columna > 2 ||  columna < 0));
+    static void jugadaPersona(char[][] tablero, char ficha) {
+        int fila, columna;
+        System.out.println("Tu turno...");
+        do {
+            System.out.println("Ingrese la fila que desea jugar: ");
+            fila = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Ingrese la columna que desea jugar: ");
+            columna = sc.nextInt();
+            sc.nextLine();
+            if (fila >= 0 && fila <= 2 && columna >= 0 && columna <= 2 && tablero[fila][columna] != ' ') {
+                System.out.println("No puede seleccionar esa posición, está ocupada. Elija otra");
+            }
+        } while (((fila > 2 || fila < 0) || (columna > 2 || columna < 0)) || tablero[fila][columna] != ' ');
+
+        tablero[fila][columna] = ficha;
+    }
+
+    static void jugadaOrdenador(char[][] tablero, char ficha) {
+        int fila, columna;
+        System.out.println("Jugada ordenador...");
+        do {
+            fila = aleatorio.nextInt(0, 3);
+            columna = aleatorio.nextInt(0, 3);
+        } while (tablero[fila][columna] != ' ');
+
+        tablero[fila][columna] = ficha;
+    }
+
+    static boolean comprobarVictoria(char[][] tablero, int jugadas, int turno) {
+        if ((tablero[0][0] != ' ' && tablero[0][0] == tablero[0][1] && tablero[0][0] == tablero[0][2])
+                || (tablero[1][0] != ' ' && tablero[1][0] == tablero[1][1] && tablero[1][0] == tablero[1][2])
+                || (tablero[2][0] != ' ' && tablero[2][0] == tablero[2][1] && tablero[2][0] == tablero[2][2])
+                || (tablero[0][0] != ' ' && tablero[0][0] == tablero[1][0] && tablero[0][0] == tablero[2][0])
+                || (tablero[0][1] != ' ' && tablero[0][1] == tablero[1][1] && tablero[0][1] == tablero[2][1])
+                || (tablero[0][2] != ' ' && tablero[0][2] == tablero[1][2] && tablero[0][2] == tablero[2][2])
+                || (tablero[0][0] != ' ' && tablero[0][0] == tablero[1][1] && tablero[0][0] == tablero[2][2])
+                || (tablero[0][2] != ' ' && tablero[0][2] == tablero[1][1] && tablero[0][2] == tablero[2][0])) {
+            if (turno == TURNO_PERSONA) {
+                System.out.println("Enhorabuena !!! Has ganado !!!");
+            } else {
+                System.out.println("Lo siento !!! Has perdido !!!");
+            }
+            return true;
+        } else if (jugadas == 9) {
+            System.out.println("Partida finalizada !!! Empate !!!");
+            return true;
+        }
+        return false;
     }
 }
