@@ -19,19 +19,22 @@ public class GestorTareas {
                     if (anadirTarea(tareas, numTareas)) numTareas++;
                     break;
                 case 2:
+                    cambiarEstadoTarea(tareas, numTareas, "EN REVISIÓN");
                     break;
                 case 3:
+                    cambiarEstadoTarea(tareas, numTareas, "COMPLETADA");
                     break;
                 case 4:
                     listarTareas(tareas, numTareas);
                     break;
                 case 5:
+                    filtrarDescripcion(tareas, numTareas);
                     break;
                 case 6:
+                    filtrarUsuario(tareas, numTareas);
                     break;
                 case 7:
-                    break;
-                case 0:
+                    resumen(tareas, numTareas);
                     break;
             }
         } while (opcion != 0);
@@ -87,11 +90,83 @@ public class GestorTareas {
         return true;
     }
 
-    static void listarTareas(String[] tareas, int numTareas){
+    static void listarTareas(String[] tareas, int numTareas) {
 
-        for (int i = 0; i < numTareas; i++){
-            System.out.println(tareas[i]);
+        System.out.println("Lista tareas");
+        System.out.println("-".repeat(45));
+
+        for (int i = 0; i < numTareas; i++) {
+            System.out.println((i + 1) + ". " + tareas[i]);
         }
+        System.out.println();
+    }
+
+    static void cambiarEstadoTarea(String[] tareas, int numTareas, String nuevoEstado) {
+        String[] partes;
+        String responsable = "";
+        int n;
+        listarTareas(tareas, numTareas);
+
+        do {
+            System.out.print("¿Qué tarea quieres revisar? ");
+            n = sc.nextInt();
+            sc.nextLine();
+        } while (n <= 0 || n > numTareas);
+        n--;
+
+        System.out.print("Responsable? ");
+        responsable = sc.nextLine();
+
+        partes = tareas[n].split("\\|");
+
+        tareas[n] = partes[0].concat("|")
+                .concat(partes[1]);
+        if (nuevoEstado.equals("EN REVISIÓN")) {
+            tareas[n] = tareas[n].concat("| Estado: EN REVISIÓN | ");
+        } else {
+            tareas[n] = tareas[n].concat("| Estado: COMPLETADA | ");
+        }
+        tareas[n] = tareas[n].concat("Responsable: ")
+                .concat(convertirCamelCase(responsable));
+
+        System.out.println("\nTarea revisada...\n");
+    }
+
+    static void filtrarDescripcion(String[] tareas, int numTareas) {
+
+    }
+
+    static void filtrarUsuario(String[] tareas, int numTareas) {
+        String usuario;
+        System.out.println("Filtrar tareas por usuario...");
+        System.out.println("Ingrese el usuario: ");
+        usuario = sc.nextLine();
+
+        usuario = convertirCamelCase(usuario);
+
+        for (int i = 0; i < numTareas; i++) {
+            if (tareas[i].contains("Solicitado por: " + usuario)) {
+                System.out.println(tareas[i]);
+            }
+        }
+        System.out.println();
+    }
+
+    static void resumen(String[] tareas, int numTareas) {
+        int contCom = 0, contPen = 0, contRev = 0;
+        System.out.println("Resumen Tareas...");
+        System.out.println("-".repeat(45));
+        for (int i = 0; i < numTareas; i++){
+            if(tareas[i].contains("Estado: EN REVISIÓN")) contRev++;
+            if(tareas[i].contains("Estado: PENDIENTE")) contPen++;
+            if(tareas[i].contains("Estado: COMPLETADA")) contCom++;
+        }
+
+        System.out.println("Total Tareas: " + numTareas);
+        System.out.println("\tPendientes: " + contPen);
+        System.out.println("\tEn Revisión: " + contRev);
+        System.out.println("\tCompletadas: " + contCom);
+        System.out.println();
     }
 
     static String convertirCamelCase(String texto) {
@@ -111,8 +186,6 @@ public class GestorTareas {
         texto = texto.substring(0, 1).toUpperCase().concat(texto.substring(1).toLowerCase());
         return texto;
     }
-
-
 
 
 }
