@@ -62,23 +62,24 @@ public class GestionNotas {
 
         // 10. Modificar la nota de un alumno
         System.out.println("\n=== MODIFICAR NOTA ===");
-        /* boolean modificada = modificarNota(
-                nombres, notas, "Carlos", 6.5);
+        boolean modificada = modificarNota(nombres, notas, "Carlos", 6.5);
 
         if (modificada) {
             System.out.println("Nota modificada correctamente");
         } else {
             System.out.println("No se ha podido modificar la nota");
-        } */
+        }
 
         // 11. Incrementar todas las notas
         System.out.println("\n=== LISTADO DESPUÉS DEL INCREMENTO ===");
-        // incrementarNotas(notas, 0.5);
-        // mostrarAlumnos(nombres, notas);
+        int cambios = incrementarNotas(notas, 0.5);
+        mostrarAlumnos(nombres, notas, 0, 10);
+        System.out.println("Se han cambiado: " + cambios + " notas");
+
 
         // 12. Calcular el porcentaje de aprobados
         System.out.println("\n=== PORCENTAJE DE APROBADOS ===");
-        // System.out.println(porcentajeAprobados(notas) + "%");
+        System.out.println(porcentajeAprobados(notas) + "%");
 
         // 13. Contar las notas superiores a 7
         System.out.println("\n=== NOTAS SUPERIORES A 7 ===");
@@ -150,14 +151,53 @@ public class GestionNotas {
     }
 
     public static double consultarNota(String[] nombres, double[] notas, String texto) {
-        double nota = -1;
-        for (int i = 0; i < nombres.length; i++) {
-            if (nombres[i].equalsIgnoreCase(texto)) {
-                nota = notas[i];
-            }
+
+        int posicion = buscarAlumno(nombres, texto);
+        if (posicion != -1) {
+            return notas[posicion];
+        } else {
+            return -1;
         }
-        return nota;
     }
+
+    public static boolean modificarNota(String[] nombres, double[] notas, String alumno, double nuevaNota) {
+        int notaModificar;
+
+        if (nuevaNota > 10 || nuevaNota < 0) {
+            return false;
+        }
+        notaModificar = buscarAlumno(nombres, alumno);
+
+        if (notaModificar == -1) {
+            return false;
+        } else {
+            notas[notaModificar] = nuevaNota;
+            return true;
+        }
+    }
+
+    public static int incrementarNotas(double[] notas, double incremento) {
+        int contador = 0;
+        for (int i = 0; i < notas.length; i++) {
+
+            if ((notas[i] + incremento) > 10) {
+                notas[i] = 10;
+            } else {
+                notas[i] += incremento;
+            }
+
+            contador++;
+        }
+        return contador;
+    }
+
+    public static String porcentajeAprobados(double[] notas) {
+
+        int porcentajeAprobados = (contarAprobados(notas) / notas.length) * 100;
+
+
+    }
+
 
 }
 
