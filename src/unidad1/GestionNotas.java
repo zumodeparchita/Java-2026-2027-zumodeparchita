@@ -1,11 +1,8 @@
 package unidad1;
 
-import java.util.Scanner;
-
 public class GestionNotas {
-    static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
 
         String[] nombres = {
                 "Ana", "Carlos", "Lucia", "Pedro",
@@ -83,12 +80,16 @@ public class GestionNotas {
 
         // 13. Contar las notas superiores a 7
         System.out.println("\n=== NOTAS SUPERIORES A 7 ===");
-        // System.out.println(contarSuperiores(notas, 7));
+        System.out.println(contarSuperiores(notas, 7));
 
         // 14. Obtener la nota de una posición
         System.out.println("\n=== CONSULTAR NOTA POR POSICIÓN ===");
-        //System.out.println(obtenerNota(notas, 3));
-
+        double notaConsultada = obtenerNota(notas, 3);
+        if (notaConsultada == -1) {
+            System.out.println("Posición no válida");
+        } else {
+            System.out.println(notaConsultada);
+        }
     }
 
     // IMPLEMENTA AQUÍ LOS MÉTODOS NECESARIOS
@@ -191,13 +192,30 @@ public class GestionNotas {
         return contador;
     }
 
-    public static String porcentajeAprobados(double[] notas) {
+    public static double porcentajeAprobados(double[] notas) {
 
-        int porcentajeAprobados = (contarAprobados(notas) / notas.length) * 100;
-
-
+        if (notas.length == 0) {
+            return 0;
+        }
+        return ((double) contarAprobados(notas) / notas.length) * 100;
     }
 
+    public static int contarSuperiores(double[] notas, int minimo) {
+        int cont = 0;
+        for (double nota : notas) {
+            if (nota >= minimo) {
+                cont++;
+            }
+        }
+        return cont;
+    }
 
+    public static double obtenerNota(double[] notas, int pos) {
+        if (pos >= notas.length || pos < 0) {
+            return -1;
+        }
+        return notas[pos];
+    }
 }
+
 
